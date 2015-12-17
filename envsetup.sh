@@ -76,11 +76,14 @@ function check_product()
 
     if (echo -n $1 | grep -q -e "^ss_") ; then
        CM_BUILD=$(echo -n $1 | sed -e 's/^ss_//g')
+       SS_BUILD=$(echo -n $1 | sed -e 's/^ss_//g')
        export BUILD_NUMBER=$((date +%s%N ; echo $CM_BUILD; hostname) | openssl sha1 | sed -e 's/.*=//g; s/ //g' | cut -c1-10)
     else
        CM_BUILD=
+       SS_BUILD=
     fi
     export CM_BUILD
+    export SS_BUILD
 
         TARGET_PRODUCT=$1 \
         TARGET_BUILD_VARIANT= \
@@ -540,7 +543,7 @@ function breakfast()
     CM_DEVICES_ONLY="true"
     unset LUNCH_MENU_CHOICES
     add_lunch_combo full-eng
-    for f in `/bin/ls vendor/cm/vendorsetup.sh 2> /dev/null`
+    for f in `/bin/ls vendor/ss/vendorsetup.sh 2> /dev/null`
         do
             echo "including $f"
             . $f
